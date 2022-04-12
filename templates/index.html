@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Cupcakes Index{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div class="row"  id="cupcake-gallery">
+        <!-- {% for cupcake in cupcakes %}
+        <div class="col-3">
+            <div class="card d-flex mb-3" style="width: 10rem; height: 20rem;" data-id="{{cupcake.id}}">
+                <img src="{{cupcake.image}}" alt="" class="card-img-top" style="object-fit: cover; height: 10rem;">
+                <div class="card-body">
+                    <p class="card-text">Flavor: {{cupcake.flavor}}</p>
+                    <p class="card-text">Size: {{cupcake.size}}</p>
+                    <p class="card-text">Rating: {{cupcake.rating}}</p>
+                    <button class='btn btn-danger delete-btn'>Delete Me</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %} -->
+            </div>
+        </div>
+        <div class="col">
+            <h3>Add a Cupcake</h3>
+            <form action="/api/cupcakes" method="POST" id="add-form">
+                <label for="flavor" class="form-label">Flavor</label>
+                <input type="text" name="flavor" class="form-control text-center">
+                <label for="size" class="form-label">Size</label>
+                <input type="text" name="size" class="form-control text-center">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="number" name="rating" class="form-control text-center">
+                <label for="image" class="form-label">Image URL</label>
+                <input type="text" name="image" class="form-control text-center">
+                <button type="submit" id="add-form-submit" class="btn btn-success mt-3">Submit</button>
+            </form>
+            
+            <form action="/api/cupcakes/search" id="search-form" class="mt-5">
+                <h3>Search</h3>
+                <input type="text" name="term" class="form-control text-center">
+                <button id="search-form-submit" class="btn btn-primary mt-3">Search</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
