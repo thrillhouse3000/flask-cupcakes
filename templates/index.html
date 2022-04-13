@@ -10,19 +10,18 @@
         <div class="col">
             <h3>Add a Cupcake</h3>
             <form action="/api/cupcakes" method="POST" id="add-form">
-                <!-- <label for="flavor" class="form-label">Flavor</label>
+                <label for="flavor" class="form-label">Flavor</label>
                 <input type="text" name="flavor" class="form-control text-center">
                 <label for="size" class="form-label">Size</label>
                 <input type="text" name="size" class="form-control text-center">
                 <label for="rating" class="form-label">Rating</label>
                 <input type="number" name="rating" class="form-control text-center">
                 <label for="image" class="form-label">Image URL</label>
-                <input type="text" name="image" class="form-control text-center"> -->
-                {% include 'form_logic.html' %}
+                <input type="text" name="image" class="form-control text-center">
                 <button type="submit" id="add-form-submit" class="btn btn-success mt-3">Submit</button>
             </form>
             
-            <form action="/api/cupcakes/search" id="search-form" class="mt-5">
+            <form action="/api/cupcakes/search" method="POST" id="search-form" class="mt-5">
                 <h3>Search</h3>
                 <input type="text" name="term" class="form-control text-center">
                 <button id="search-form-submit" class="btn btn-primary mt-3">Search</button>

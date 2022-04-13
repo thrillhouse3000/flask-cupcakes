@@ -2,7 +2,7 @@ from tokenize import String
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField
 
-class CupcakeAddForm(FlaskForm):
+class CupcakeUpdateForm(FlaskForm):
     flavor = StringField('Flavor')
     size = StringField('Size')
     rating = FloatField('Rating')

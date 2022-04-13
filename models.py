@@ -26,7 +26,7 @@ class Cupcake(db.Model):
     )
 
     rating = db.Column(
-        db.Float,
+        db.String,
         nullable=False
     )
 
