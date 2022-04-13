@@ -1,3 +1,4 @@
+let flavor = document.querySelector('input[name=flavor]').value
 let $gallery = $('#cupcake-gallery')
 
 showAllCupcakes()
@@ -69,11 +70,19 @@ async function showDetails(id) {
 }
 
 async function addCupcake() {
-    const flavor = $('#add-form input[name=flavor]').val()
-    const size = $('#add-form input[name=size]').val()
-    const rating = $('#add-form input[name=rating]').val()
-    const image = $('#add-form input[name=image]').val()
-    res = await axios.post('/api/cupcakes', {flavor: flavor, size: size, rating: rating, image: image})
+    let flavor = document.querySelector('input[name=flavor]').value
+    let size = document.querySelector('input[name=size]').value
+    let rating = document.querySelector('input[name=rating]').value
+    let image = document.querySelector('input[name=image]').value
+
+    data = {
+        flavor: flavor,
+        size: size,
+        rating: rating,
+        image: image
+    }
+
+    res = await axios.post('/api/cupcakes', {'flavor':'vanilla', 'size':'small', 'rating':'7', 'image':''})
 }
 
 async function updateCupcake() {
@@ -101,12 +110,12 @@ $gallery.on('click', '.delete-btn', async function cupcakeDeleteHandler() {
     $(this).parent().parent().parent().remove()
 })
 
-$('#search-form').on('submit', async function searchHandler(e) {
+$('#search-form').on('submit', async function searchHandler() {
     await showSearchResults()
     $(':input', '#search-form').val('')
 })
 
-$gallery.on('click', '.update-btn', async function cupcakeUpdateHandler(e){
+$gallery.on('click', '.update-btn', async function cupcakeUpdateHandler(){
     const id = $(this).parent().parent().data('id')
     await showDetails(id)
 })

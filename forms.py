@@ -1,6 +1,6 @@
 from tokenize import String
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, IntegerField
+from wtforms import StringField, FloatField
 
 class CupcakeAddForm(FlaskForm):
     flavor = StringField('Flavor')

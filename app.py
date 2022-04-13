@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, render_template, redirect, flash, ses
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Cupcake
 from forms import CupcakeAddForm
-from sqlalchemy import or_
 
 app = Flask(__name__)
 
@@ -19,12 +18,29 @@ db.create_all()
 @app.route('/')
 def home_page():
     """Show home page"""
-    return render_template('index.html')
+    form = CupcakeAddForm()
+    return render_template('index.html', form=form)
 
-@app.route('/api/cupcakes')
+@app.route('/api/cupcakes', methods=['GET', 'POST'])
 def cupcakes_index():
-    all_cupcakes = [cupcake.serialize_cupcake() for cupcake in Cupcake.query.all()]
-    return jsonify(cupcakes=all_cupcakes)
+    form=CupcakeAddForm()
+
+    if form.validate_on_submit():
+        data = request.json
+        cupcake = Cupcake(
+        flavor=data['flavor'], 
+        size=data['size'], 
+        rating=data['rating'], 
+        image=data['image'] or None
+        )
+        db.session.add(cupcake)
+        db.session.commit()
+        serialized = cupcake.serialize_cupcake()
+        return jsonify(serialized), 201
+    
+    else:
+        all_cupcakes = [cupcake.serialize_cupcake() for cupcake in Cupcake.query.all()]
+        return jsonify(cupcakes=all_cupcakes)
 
 @app.route('/api/cupcakes/search')
 def cupcakes_search():
@@ -37,18 +53,18 @@ def show_cupcake_details(cupcake_id):
     cupcake = Cupcake.query.get_or_404(cupcake_id)
     return jsonify(cupcake=cupcake.serialize_cupcake())
 
-@app.route('/api/cupcakes', methods=["POST"])
-def add_cupcake():
-    data = request.json
-    cupcake = Cupcake(
-        flavor=data['flavor'], 
-        size=data['size'], 
-        rating=data['rating'], 
-        image=data['image'] or None
-        )
-    db.session.add(cupcake)
-    db.session.commit()
-    return (jsonify(cupcake=cupcake.serialize_cupcake()), 201)
+# @app.route('/api/cupcakes', methods=["POST"])
+# def add_cupcake():
+#     data = request.json
+#     cupcake = Cupcake(
+#         flavor=data['flavor'], 
+#         size=data['size'], 
+#         rating=data['rating'], 
+#         image=data['image'] or None
+#         )
+#     db.session.add(cupcake)
+#     db.session.commit()
+#     return (jsonify(cupcake=cupcake.serialize_cupcake()), 201)
 
 @app.route('/api/cupcakes/<int:cupcake_id>', methods=['PATCH'])
 def update_cupcake(cupcake_id):
