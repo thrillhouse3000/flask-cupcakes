@@ -8,6 +8,15 @@
     <title>{% block title %}TITLE{% endblock %}</title>
 </head>
 <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <h3 class="text-white">Cupcake Palace</h3>
+          <form action="/api/cupcakes/search" method="POST" id="search-form" class="d-flex">
+            <input name="term" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button id="search-form-submit" class="btn btn-primary">Search</button>
+        </form>
+        </div>
+    </nav>
     <div class="container text-center">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}

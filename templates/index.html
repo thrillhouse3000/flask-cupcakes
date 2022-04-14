@@ -4,10 +4,12 @@
 
 {% block content %}
     <div class="row">
-        <div class="col">
-            <div class="row" id="cupcake-gallery"></div>
+        <div class="col-9">
+            <h3>Cupcakes</h3>
+            <div class="row" id="cupcake-gallery">
+            </div>
         </div>
-        <div class="col">
+        <div class="col ms-5 mt-5">
             <h3>Add a Cupcake</h3>
             <form action="/api/cupcakes" method="POST" id="add-form">
                 <label for="flavor" class="form-label">Flavor</label>
@@ -19,12 +21,6 @@
                 <label for="image" class="form-label">Image URL</label>
                 <input type="text" name="image" class="form-control text-center">
                 <button type="submit" id="add-form-submit" class="btn btn-success mt-3">Submit</button>
-            </form>
-            
-            <form action="/api/cupcakes/search" method="POST" id="search-form" class="mt-5">
-                <h3>Search</h3>
-                <input type="text" name="term" class="form-control text-center">
-                <button id="search-form-submit" class="btn btn-primary mt-3">Search</button>
             </form>
         </div>
     </div>

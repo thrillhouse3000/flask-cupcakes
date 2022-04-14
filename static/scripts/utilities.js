@@ -2,14 +2,18 @@ let $gallery = $('#cupcake-gallery')
 
 function makeHtml(cupcake) {
     return `<div class="col-4">
-                <div class="card d-flex mb-3" style="width: 12rem; height: auto;" data-id="${cupcake.id}">
-                    <img src="${cupcake.image}" alt="" class="card-img-top" style="object-fit: cover; height: 10rem;">
+                <div class="card d-flex mb-3" style="width: 20rem; height: auto;" data-id="${cupcake.id}">
+                    <img src="${cupcake.image}" alt="" class="card-img-top" style="object-fit: contain; height: 15rem;">
                     <div class="card-body">
                         <p class="card-text">Flavor: ${cupcake.flavor}</p>
                         <p class="card-text">Size: ${cupcake.size}</p>
                         <p class="card-text">Rating: ${cupcake.rating}</p>
-                        <button class='btn btn-info update-btn mb-2'>Update Me</button>
-                        <button class='btn btn-danger delete-btn mb-2'>Delete Me</button>
+                        <div class="d-inline">
+                            <button class='btn btn-info update-btn mb-2'>Update Me</button>
+                        </div>
+                        <div class="d-inline">
+                            <button class='btn btn-danger delete-btn mb-2'>Delete Me</button>
+                        </div>
                     </div>
                 </div>
             </div>`
@@ -20,7 +24,7 @@ function makeDetailsHtml(cupcake) {
                 <div class="card d-flex mb-3" style="width: auto; height: auto;" data-id="${cupcake.id}">
                     <img src="${cupcake.image}" alt="" class="card-img-top" style="object-fit: contain; height: 20rem">
                     <div class="card-body">
-                        <form action='/api/cupcakes/${cupcake.id}' method='POST' id='update-form'>
+                        <form action='/api/cupcakes/${cupcake.id}' method="POST" id='update-form'>
                             <label for="flavor" class="form-label">Flavor</label>
                             <input type="text" name="flavor" class="form-control text-center" value=${cupcake.flavor}>
                             <label for="size" class="form-label">Size</label>
@@ -29,7 +33,7 @@ function makeDetailsHtml(cupcake) {
                             <input type="number" name="rating" class="form-control text-center" value=${cupcake.rating}>
                             <label for="image" class="form-label">Image URL</label>
                             <input type="text" name="image" class="form-control text-center" value=${cupcake.image}>
-                            <button class='btn btn-info update-btn mt-2 mb-2'>Update Me</button>
+                            <button class='btn btn-info mt-2 mb-2 update-submit'>Update Me</button>
                         </form>
                         <button class='btn btn-danger cancel-btn mb-2'>Cancel</button>
                     </div>

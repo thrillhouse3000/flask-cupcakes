@@ -9,7 +9,12 @@ async function showAllCupcakes() {
 async function showSearchResults(term) {
     res = await axios.post('/api/cupcakes/search', {term})
     cupcakes = res.data.cupcakes
-    clearAndAppend(cupcakes)
+    if (cupcakes.length) {
+        clearAndAppend(cupcakes)
+    } else {
+        $gallery.empty().append('<h3>Whoops! No matching results.</h3>')
+    }
+    
 }
 
 async function showDetails(id) {
@@ -30,15 +35,14 @@ async function addCupcake() {
         rating: rating,
         image: image
     }
-    res = await axios.post('/api/cupcakes', data)
+
+    console.log(data)
+    
+    await axios.post('/api/cupcakes', data)
 }
 
-async function updateCupcake() {
-    const flavor = $('#edit-form input[name=flavor]').val()
-    const size = $('#edit-form input[name=size]').val()
-    const rating = $('#edit-form input[name=rating]').val()
-    const image = $('#edit-form input[name=image]').val()
-    res = await axios.patch('/api/cupcakes', {flavor: flavor, size: size, rating: rating, image: image})
+async function updateCupcake(id, data) {
+    await axios.post(`/api/cupcakes/${id}`, data)
 }
 
 async function deleteCupcake(id) {
@@ -63,16 +67,31 @@ $('#search-form').on('submit', async function searchHandler(e) {
     $(':input', '#search-form').val('')
 })
 
-$gallery.on('click', '.update-btn', async function cupcakeUpdateHandler(){
-    const id = $(this).parent().parent().data('id')
-    await showDetails(id)
+$gallery.on('click', '.update-submit', async function cupcakeUpdateHandler(e) {
+    e.preventDefault()
+    let id = $(this).parent().parent().parent().data('id') 
+    let flavor = $('#update-form input[name=flavor]').val()
+    let size = $('#update-form input[name=size]').val()
+    let rating = $('#update-form input[name=rating]').val()
+    let image = $('#update-form input[name=image]').val()
+
+    data = {
+        flavor: flavor,
+        size: size,
+        rating: rating,
+        image: image
+    }
+
+    console.log(id, data)
+
+    await updateCupcake(id, data)
+    await showAllCupcakes()
+    $(':input', '#update-form').val('')
 })
 
-$('#edit-form').on('submit', async function cupcakeUpdateHandler(e) {
-    e.preventDefault()
-    await updateCupcake()
-    await showAllCupcakes()
-    $(':input', '#add-form').val('')
+$gallery.on('click', '.update-btn', async function cupcakeUpdateHandler(){
+    const id = $(this).parent().parent().parent().data('id')
+    await showDetails(id)
 })
 
 $gallery.on('click', '.cancel-btn', async function cupcakeCancelHandler(e){
@@ -80,7 +99,7 @@ $gallery.on('click', '.cancel-btn', async function cupcakeCancelHandler(e){
 })
 
 $gallery.on('click', '.delete-btn', async function cupcakeDeleteHandler() {
-    const id = $(this).parent().parent().data('id')
+    const id = $(this).parent().parent().parent().data('id')
     await deleteCupcake(id)
-    $(this).parent().parent().parent().remove()
+    $(this).parent().parent().parent().parent().remove()
 })
